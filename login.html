@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FestivalesCV - login</title>
+    <link rel="stylesheet" href="./assets/login.css">
+    <link rel="icon" type="image/x-icon" href="./assets/img/logo.png">
+</head>
+<body>
+    <main class="login">
+        <section class="login__card">
+            <!-- PARTE IZQUIERDA -->
+            <div class="login__brand">
+                <h1>
+                    Festival<br>
+                    CV
+                </h1>
+                <div class="login__logo">
+                    FCV
+                </div>
+            </div>
+
+
+            <!-- PARTE DERECHA -->
+            <div class="login__form-container">
+                <h2>Iniciar sesión</h2>
+                <form class="login__form">
+                    <!-- Usuario -->
+                    <div class="form__group">
+                        <label for="usuario">
+                            Usuario o correo electrónico:
+                        </label>
+                        <input type="text" id="usuario" name="usuario" value="carlos@festivalcv.es" >
+                    </div>
+                    <!-- Contraseña -->
+                    <div class="form__group">
+                        <label for="password">
+                            Contraseña:
+                        </label>
+                        <input type="password" id="password" name="password"  placeholder="Introduzca su contraseña" >
+                    </div>
+
+                    <!-- Recordar -->
+                    <div class="form__remember">
+                        <label>
+                            <input type="checkbox" name="remember" >
+                            <span>
+                                Recordarme en este dispositivo
+                            </span>
+                        </label>
+                    </div>
+
+                    <!-- Recuperar contraseña -->
+                    <a href="#" class="form__forgot" >
+                        ¿Has olvidado tu contraseña?
+                    </a>
+
+                    <!-- Botón -->
+                    <a type="submit" class="form__button" href="./dashboard.html">
+                        Entrar a la cuenta
+                    </a>
+                </form>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

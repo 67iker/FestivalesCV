@@ -1,0 +1,122 @@
+.event-edit-modal::backdrop, .event-new-modal::backdrop {
+    background: rgba(222, 117, 150, 0.5);
+}
+
+.event-edit-modal, .event-new-modal {
+    border: none;
+    border-radius: 50px;
+    padding: 20px;
+
+    /* Contenido de arriba hacia abajo */
+    display: flex;
+    flex-direction: column;
+
+    /* Centrar contenido */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    /* Centrar el dialog en pantalla */
+    margin: auto;
+
+    width: 90%;
+    max-width: 900px;
+    max-height: 650px;
+
+    gap: 15px;
+}
+
+.event-image {
+    width: 215px;
+    height: 215px;
+    border-radius: 28px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #222;
+}
+
+.medusa {
+background:
+    linear-gradient(rgba(0,0,0,.15), rgba(0,0,0,.3)),
+    url("https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=400&q=80")
+    center / cover;
+}
+
+.action-button {
+border: none;
+background: #e81759;
+color: white;
+height: 20px;
+padding: 1px 14px 1px;
+border-radius: 12px;
+font-size: 14px;
+font-weight: 700;
+cursor: pointer;
+line-height: 17px;
+}
+
+.action-button:hover {
+background: #c90e49;
+}
+
+/* Información del evento */
+.event-edit-modal .event-info, .event-new-modal .event-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Cada información */
+.event-edit-modal .event-info > div, .event-new-modal .event-info > div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+
+/* Estado */
+.event-edit-modal .status, .event-new-modal .status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+/* Botones */
+.event-edit-modal .actions, .event-new-modal.actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+body.no-scroll {
+    overflow: hidden;
+}
+.event-edit-modal input,.event-new-modal input,  select{
+    width: 280px;
+    height: 30px;
+    padding: 0 11px;
+    border: 1px solid #e8e8e8;
+    border-radius: 18px;
+    background-color: #fff;
+    color: #333;
+    font-size: 12px;
+    outline: none;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.04);
+}
+
+.event-edit-modal input.name, .event-new-modal input.name {
+    width: 280px;
+    height: 30px;
+    padding: 0 11px;
+    text-align: center;
+    border: 1px solid #e8e8e8;
+    border-radius: 21px;
+    background-color: #fff;
+    color: #000;
+    font-weight: bold;
+    outline: none;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.04);
+    font-size: 18px;
+}

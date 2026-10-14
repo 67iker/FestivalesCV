@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FestivalesCV - Calendario</title>
+    <link rel="stylesheet" href="./assets/main.css">
+    <link rel="stylesheet" href="./assets/popup.css">
+    <link rel="icon" type="image/x-icon" href="./assets/img/logo.png">
+    <script src="./assets/js/popup_edit.js" defer></script>
+    <script src="./assets/js/popup_new.js" defer></script>
+    <style>
+        .edit-event::backdrop {
+            background: rgba(0, 0, 0, 0.5);
+        }
+        /* Ocultar los diálogos cuando están cerrados */
+        dialog#new-event:not([open]),
+        dialog#edit-event:not([open]) {
+            display: none;
+        }
+
+        /* Asegúrate de tener también la clase que bloquea el scroll */
+        body.no-scroll {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="calendario">
+        <aside class="sidebar">
+            <!-- LOGO -->
+            <div class="sidebar__logo">
+                <img src="./assets/img/logo.png" alt="logo">
+                <span>Festival CV</span>
+            </div>
+
+            <!-- MENÚ -->
+            <nav class="sidebar__nav" aria-label="Menú principal">
+                <a href="./dashboard.html" class="sidebar__item">
+                    <img src="./assets/img/icon_dashboard.png" alt="icon_dashboard">
+                    <span>Dashboards</span>
+                </a>
+                <a href="./clientes.html" class="sidebar__item">
+                    <img src="./assets/img/icon_clientes.png" alt="icon_clientes">
+                    <span>Clientes</span>
+                </a>
+                <!-- EVENTOS -->
+                <div class="sidebar__item-group">
+                    <a href="./eventos.html" class="sidebar__item">
+                        <img src="./assets/img/icon_eventos.png" alt="icon_eventos">
+                        <span>Eventos</span>
+                    </a>
+                    <div class="sidebar__submenu">
+                        <a class="btn-new">Nuevo evento</a>
+                        <a class="btn-editar">Editar evento</a>
+                        <a href="#">Detalles del evento</a>
+                    </div>
+                </div>
+                <a href="./presupuestos.html" class="sidebar__item">
+                    <img src="./assets/img/icon_presupuesto.png" alt="icon_presupuesto">
+                    <span>Presupuestos</span>
+                </a>
+                <a href="./calendario.html" class="sidebar__item sidebar__item--active">
+                    <img src="./assets/img/icon_calendario.png" alt="icon_calendario">
+                    <span>Calendario</span>
+                </a>
+            </nav>
+
+            <!-- PARTE INFERIOR -->
+            <div class="sidebar__bottom">
+                <div class="sidebar__user">
+                    <img src="./assets/img/perfil-user.png" alt="perfil-user">
+                    <div class="sidebar__user-info">
+                        <strong>Administrador</strong>
+                        <small>carlos@festivalcv.es</small>
+                    </div>
+                </div>
+
+                <a class="sidebar__logout" href="./login.html">
+                    <img src="./assets/img/icon_logout.png" alt="icon_logout">
+                    Cerrar sesión
+                </a>
+
+            </div>
+
+        </aside>
+        <main class="main">
+            <h2 class="page-title">Calendario</h2>
+            <div id="calendario-contenedor">
+                <!-- Aquí es donde se pintará la agenda/calendario -->
+                <div id="calendar"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- NUEVO EVENTO POP-UP -->
+    <dialog class="event-new-modal" id="new-event">
+
+        <h3 class="page-title">Nuevo Evento</h3>
+
+        <div class="event-image medusa"></div>
+
+        <input class="name" type="text" name="name" value="Introduce el nombre">
+
+        <div class="event-info">
+            <div>
+                <strong>Dirección:</strong>
+                <input type="text" name="direccion">
+            </div>
+
+            <div>
+                <strong>Fechas:</strong>
+                <input type="text" name="direccion">
+            </div>
+
+            <div>
+                <strong>Estado:</strong>
+                <select name="estado">
+                    <option value="pendiente">Pendiente</option>
+                    <option value="confirmado" selected>Confirmado</option>
+                    <option value="cancelado">Cancelado</option>
+                </select> 
+            </div>
+
+            <div>
+                <strong>Cliente:</strong>
+                <input type="text" name="direccion">
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="action-button btn-editar">Guardar</button>
+            <button id="cerrar_new" class="action-button">Cerrar</button>
+        </div>
+
+    </dialog>
+
+    <!-- EDITAR POP-UP -->
+    <dialog class="event-edit-modal" id="edit-event">
+
+        <h3 class="page-title">Editar Evento</h3>
+
+        <div class="event-image medusa"></div>
+
+        <input class="name" type="text" name="name" value="Medusa Sunbeach Festival">
+
+        <div class="event-info">
+            <div>
+                <strong>Dirección:</strong>
+                <input type="text" name="direccion" value="Plaça Numero 23, Cullera, Valencia">
+            </div>
+
+            <div>
+                <strong>Fechas:</strong>
+                <input type="text" name="direccion" value="12-16 ago">
+            </div>
+
+            <div>
+                <strong>Estado:</strong>
+                <select name="estado">
+                    <option value="pendiente">Pendiente</option>
+                    <option value="confirmado" selected>Confirmado</option>
+                    <option value="cancelado">Cancelado</option>
+                </select> 
+            </div>
+
+            <div>
+                <strong>Cliente:</strong>
+                <input type="text" name="direccion" value="PASSWORD 33, AIE">
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="action-button btn-editar">Guardar</button>
+            <button id="cerrar_edit" class="action-button">Cerrar</button>
+        </div>
+
+    </dialog>
+</body>
+</html>
