@@ -1,38 +1,41 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('click', (e) => {
     const popup = document.getElementById('edit-event');
-    const botonesEditar = document.querySelectorAll('.btn-editar');
-    const botonCerrar = document.getElementById('cerrar_edit');
 
-    // Comprobar que el pop-up existe en la página antes de asignar eventos
-    if (popup) {
-        // Asignar el evento de apertura a todos los botones de editar
-        botonesEditar.forEach(boton => {
-            boton.addEventListener('click', () => {
-                popup.showModal(); 
-                document.body.classList.add('no-scroll');
-            });
-        });
+    if (!popup) return;
 
-        // Cerrar el pop-up al pulsar en el botón Cerrar
-        if (botonCerrar) {
-            botonCerrar.addEventListener('click', () => {
-                popup.close();
-                document.body.classList.remove('no-scroll');
-            });
+    // Abrir el popup desde cualquier botón de editar
+    if (e.target.closest('.btn-editar')) {
+        // Evitar que el botón Guardar del popup lo vuelva a abrir
+        if (popup.contains(e.target)) return;
+
+        if (!popup.open) {
+            popup.showModal();
+            document.body.classList.add('no-scroll');
         }
 
-        // Cerrar el pop-up si el usuario hace clic fuera de la ventana blanca (en el fondo)
-        popup.addEventListener('click', (e) => {
-            const dialogDimensions = popup.getBoundingClientRect();
-            if (
-                e.clientX < dialogDimensions.left ||
-                e.clientX > dialogDimensions.right ||
-                e.clientY < dialogDimensions.top ||
-                e.clientY > dialogDimensions.bottom
-            ) {
-                popup.close();
-                document.body.classList.remove('no-scroll');
-            }
-        });
+        return;
+    }
+
+    // Cerrar desde el botón correspondiente
+    if (e.target.closest('#cerrar_edit')) {
+        popup.close();
+        document.body.classList.remove('no-scroll');
     }
 });
+
+// Cerrar al pulsar el fondo
+document.addEventListener('click', (e) => {
+    const popup = document.getElementById('edit-event');
+
+    if (popup && popup.open && e.target === popup) {
+        popup.close();
+        document.body.classList.remove('no-scroll');
+    }
+});
+
+// Restaurar el scroll cuando se cierre por cualquier motivo
+document.addEventListener('close', (e) => {
+    if (e.target.id === 'edit-event') {
+        document.body.classList.remove('no-scroll');
+    }
+}, true);

@@ -206,8 +206,18 @@ gap: 12px;
     background: #222;
 }
 
-.event-info {
-    padding: 5px 15px 5px 22px;
+.event-info{
+    padding: 5px 0px 5px 22px;
+    flex: 0 0 30%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap:15px;
+}
+
+.event-extra{
+    padding: 5px 15px 5px 0px;
     flex: 1;
     min-width: 0;
     display: flex;

@@ -32,6 +32,7 @@ body {
     --shadow: 0 3px 10px rgba(0, 0, 0, .08);
 
     --sidebar-width: 254px;
+    --sidebar-collapsed-width: 70px;
 }
 
 
@@ -51,7 +52,7 @@ body {
 ========================= */
 
 .sidebar {
-    width: var(--sidebar-width);
+    width: var(--sidebar-collapsed-width);
     height: 100vh;
     position: fixed;
     top: 0;
@@ -61,7 +62,27 @@ body {
     display: flex;
     flex-direction: column;
     z-index: 1000;
+
+    overflow-x: hidden;
+
+    transition: width 0.25s ease;
     }
+
+    .sidebar:hover,
+.sidebar.sidebar--pinned {
+    width: var(--sidebar-width);
+}
+
+/* Sidebar contraído */
+.sidebar:not(:hover):not(.sidebar--pinned) .sidebar__item,
+.sidebar:not(:hover):not(.sidebar--pinned) .sidebar__user,
+.sidebar:not(:hover):not(.sidebar--pinned) .sidebar__logo {
+    gap: 20px;
+}
+
+.sidebar__logo {
+    cursor: pointer;
+}
 
 /* =========================
    LOGO
@@ -96,6 +117,7 @@ body {
     color: #e91e63;
     font-size: 24px;
     font-weight: 700;
+    white-space: nowrap;
 }
 
 
@@ -180,6 +202,10 @@ body {
     font-weight: 700;
     color: #DE7596;
 }
+/* Quitar temporalmente el borde de Eventos al pasar por el submenú */
+.sidebar__item-group:has(.sidebar__submenu a:hover) > .sidebar__item--active {
+    border-block: none;
+}
 
 .sidebar__submenu {
     display: flex;
@@ -254,7 +280,7 @@ body {
     margin-bottom: 28px;
 }
 
-.sidebar__user img {
+.sidebar__user img, .sidebar__logout-icon {
     width: 34px;
     height: 34px;
 }
@@ -292,22 +318,41 @@ body {
    CERRAR SESIÓN
 ========================= */
 
+/* Cuando el menú se expande con hover o queda fijado */
+.sidebar:hover .sidebar__logout-icon,
+.sidebar.sidebar--pinned .sidebar__logout-icon {
+    display: none;
+}
+
+.sidebar:hover .sidebar__logout,
+.sidebar.sidebar--pinned .sidebar__logout {
+    display: flex;
+}
+
+
+.sidebar__logout-icon {
+    cursor: pointer;
+}
+
 .sidebar__logout {
     width: 100%;
-    height: 33px;
+    height: 34px;
     border: none;
     border-radius: 18px;
     background: #e91e63;
     color: white;
     text-decoration: none;
     cursor: pointer;
-    display: flex;
+
+    display: none;
     align-items: center;
     justify-content: flex-start;
     gap: 30px;
     padding: 0 14px;
+
     font-size: 14px;
     font-weight: 700;
+    line-height: 1;
 }
 
 .sidebar__logout img {
@@ -317,6 +362,9 @@ body {
 
 .sidebar__logout span {
     font-size: 17px;
+    line-height: 1;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .sidebar__logout:hover {
@@ -330,319 +378,31 @@ body {
 
 .main {
     flex: 1;
-    margin-left: var(--sidebar-width);
+    min-width: 0;
+    margin-left: var(--sidebar-collapsed-width, 74px);
+    width: calc(100% - var(--sidebar-collapsed-width, 74px));
     padding: 25px 25px 22px;
     overflow: hidden;
+
+    transition:
+        margin-left 0.25s ease,
+        width 0.25s ease;
+}
+
+/* Sidebar expandido por hover o fijado */
+.app:has(.sidebar:hover, .sidebar.sidebar--pinned) .main {
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
 }
 
 .page-title {
     color: var(--pink);
     font-size: 24px;
     font-weight: 700;
-    margin: 0 0 15px 8px;
+    margin: 0 0 25px 8px;
 }
 
 
-/* =========================
-   TARJETAS RESUMEN
-========================= */
-
-.summary {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin: 0 8px 12px;
-}
-
-.summary-card {
-    height: 128px;
-    background: white;
-    border: 1px solid #f0f0f0;
-    border-radius: 28px;
-    box-shadow: var(--shadow);
-    display: flex;
-    align-items: center;
-    padding: 15px 22px;
-    position: relative;
-    overflow: hidden;
-}
-
-.summary-icon {
-    width: 82px;
-    height: 82px;
-    color: var(--pink-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 70px;
-    font-weight: bold;
-    margin-right: 12px;
-}
-
-.summary-content {
-    text-align: center;
-    flex: 1;
-}
-
-.summary-content h3 {
-    font-size: 13px;
-    margin-bottom: 14px;
-}
-
-.summary-number {
-    color: var(--pink);
-    font-size: 15px;
-    font-weight: 700;
-    margin-bottom: 14px;
-}
-
-.summary-description {
-    color: #777;
-    font-size: 11px;
-    line-height: 15px;
-}
-
-
-/* =========================
-   PANEL GENERAL
-========================= */
-
-.panel {
-    background: #fff;
-    border: 1px solid #eee;
-    border-radius: 28px;
-    box-shadow: var(--shadow);
-}
-
-
-/* =========================
-   GRÁFICA DE VENTAS
-========================= */
-
-.sales-panel {
-    height: 230px;
-    margin: 0 8px 12px;
-    padding: 10px 18px 15px;
-}
-
-.panel-title {
-    text-align: center;
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 3px;
-}
-
-.sales-chart {
-    height: 180px;
-    position: relative;
-
-    margin-left: 38px;
-    margin-right: 28px;
-
-    border-bottom: 1px solid #ddd;
-
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            transparent 0,
-            transparent 13px,
-            #ededed 14px,
-            #ededed 15px
-        );
-}
-
-
-/* eje Y */
-
-.y-axis {
-    position: absolute;
-    left: -40px;
-    top: 0;
-    bottom: 0;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    color: #666;
-    font-size: 9px;
-}
-
-
-/* barras */
-
-.bars {
-    height: 100%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-around;
-    padding: 0 5px;
-}
-
-.bar-group {
-    height: 100%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    position: relative;
-    width: 35px;
-}
-
-.bar {
-    width: 13px;
-    background: var(--pink);
-    position: relative;
-    z-index: 2;
-}
-
-.bar-label {
-    position: absolute;
-    bottom: -20px;
-
-    font-size: 10px;
-    color: #555;
-
-    transform: rotate(-35deg);
-    white-space: nowrap;
-}
-
-
-/* línea de tendencia */
-
-.sales-line {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-}
-
-.sales-line svg {
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-}
-
-.sales-line polyline {
-    fill: none;
-    stroke: var(--pink);
-    stroke-width: 1;
-}
-
-
-/* =========================
-   FILA INFERIOR
-========================= */
-
-.bottom-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 0 8px;
-}
-
-
-/* =========================
-   EVENTOS
-========================= */
-
-.events-panel {
-    height: 190px;
-    padding: 12px 18px;
-}
-
-.event {
-    margin-top: 18px;
-}
-
-.event-name {
-    font-size: 12px;
-    margin-bottom: 5px;
-}
-
-.progress-row {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.progress {
-    height: 13px;
-    flex: 1;
-    background: #d96d91;
-    position: relative;
-    overflow: hidden;
-}
-
-.progress-value {
-    height: 100%;
-    background: var(--pink);
-}
-
-.event-percent {
-    width: 75px;
-    font-size: 11px;
-    white-space: nowrap;
-}
-
-
-/* =========================
-   VENTAS POR CANAL
-========================= */
-
-.channel-panel {
-    height: 190px;
-    padding: 12px 18px;
-}
-
-.channel-content {
-    height: 145px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 35px;
-}
-
-
-/* gráfico circular */
-
-.pie-chart {
-    width: 106px;
-    height: 106px;
-    border-radius: 50%;
-
-    background:
-        conic-gradient(
-            var(--pink) 0 52%,
-            white 52% 53%,
-            #d88ba6 53% 81%,
-            white 81% 82%,
-            #e7b1c2 82% 100%
-        );
-
-    transform: rotate(-20deg);
-}
-
-
-/* leyenda */
-
-.channel-list {
-    list-style: none;
-    min-width: 125px;
-}
-
-.channel-list li {
-    font-size: 11px;
-    margin: 12px 0;
-}
-
-.channel-list li span {
-    color: #555;
-}
-
-.channel-list li strong {
-    float: right;
-    font-weight: 400;
-}
 
 
 /* =========================
